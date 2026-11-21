@@ -1,0 +1,1866 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="artifact-type" content="tool">
+  <meta name="design-style" content="riso">
+  <title>El origen de la Tierra — Autoevaluación secuenciada (3º ESO PDC)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&family=Work+Sans:ital,wght@0,100..900;1,100..900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light;
+
+      /* 1. Riso style tokens */
+      --background: #f7f3ea;
+      --surface-container-low: #ffffff;
+      --surface-container: #efe8d8;
+      --surface-container-high: #fff8b3;
+
+      --on-surface: #1d2a5a;
+      --on-surface-variant: #3d4775;
+
+      --outline: #1d2a5a;
+      --outline-variant: #c3c6d9;
+
+      --primary: #006aa8;
+      --on-primary: #ffffff;
+      --primary-container: #ffe800;
+      --on-primary-container: #1d2a5a;
+      --secondary: #ff52b4;
+      --tertiary: #d00074;
+      --error: #c0262d;
+      --on-error: #ffffff;
+
+      --data-1: #0078bf;
+      --data-2: #d00074;
+      --data-3: #1d2a5a;
+      --data-4: #d9531e;
+      --data-context: #b4b8cc;
+
+      --font-headline: 'Archivo', sans-serif;
+      --font-body: 'Work Sans', sans-serif;
+      --font-label: 'Space Mono', monospace;
+
+      --rounded: 0.25rem;
+      --rounded-lg: 0.5rem;
+      --rounded-full: 9999px;
+
+      --misregister: 3px 2px 0 rgb(255 82 180 / 0.85);
+      --ink-border: 2px solid var(--outline);
+      --ink-border-subtle: 1px solid var(--outline-variant);
+      --offset-pink: 5px 5px 0 var(--secondary);
+      --offset-blue: 5px 5px 0 var(--primary);
+      --offset-sm: 3px 3px 0 var(--primary);
+      --offset-navy: 4px 4px 0 var(--outline);
+      --halftone: radial-gradient(rgb(29 42 90 / 0.07) 1px, transparent 1.2px);
+      --halftone-size: 6px 6px;
+
+      /* 3. Shared semantic, type, spacing, motion tokens */
+      --positive: #0c6b52;
+      --positive-bg: #dff7ee;
+      --warning: #a34d00;
+      --warning-bg: #fff0db;
+      --error-bg: #fde8e8;
+      --focus: #006aa8;
+
+      --display-size: clamp(1.85rem, 1.35rem + 1.8vw, 2.75rem);
+      --headline-size: clamp(1.3rem, 1.1rem + 0.65vw, 1.65rem);
+      --subhead-size: clamp(1.0625rem, 1rem + 0.25vw, 1.2rem);
+      --body-size: clamp(0.95rem, 0.92rem + 0.15vw, 1.0625rem);
+      --label-size: 0.75rem;
+
+      --space-xs: 0.25rem;
+      --space-sm: 0.5rem;
+      --space-md: 1rem;
+      --space-lg: 1.5rem;
+      --space-xl: 2.5rem;
+      --space-2xl: 4rem;
+
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+      --dur-micro: 120ms;
+      --dur-short: 220ms;
+      --dur-long: 420ms;
+    }
+
+    /* Base reset */
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body {
+      overflow-x: clip;
+      margin: 0;
+      padding: 0;
+      background-color: var(--background);
+      background-image: var(--halftone);
+      background-size: var(--halftone-size);
+      color: var(--on-surface);
+      font-family: var(--font-body);
+      font-size: var(--body-size);
+      line-height: 1.55;
+    }
+    header { position: static !important; }
+
+    button, input, select, textarea {
+      font-family: inherit;
+    }
+
+    :focus-visible {
+      outline: 3px solid var(--focus);
+      outline-offset: 2px;
+    }
+
+    .page-grid {
+      display: grid;
+      gap: var(--space-lg);
+      padding: var(--space-lg);
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+    .page-grid * { min-width: 0; }
+
+    /* Typography helpers */
+    .misregister {
+      font-family: var(--font-headline);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+      line-height: 1.02;
+      color: var(--primary);
+      text-shadow: var(--misregister);
+      margin: 0;
+    }
+
+    .stamp {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      background: var(--primary);
+      color: var(--on-primary);
+      border-radius: var(--rounded-full);
+      padding: var(--space-xs) var(--space-sm);
+      white-space: nowrap;
+    }
+    .stamp--yellow {
+      background: var(--primary-container);
+      color: var(--on-primary-container);
+      border: 1.5px solid var(--outline);
+    }
+    .stamp--positive {
+      background: var(--positive);
+      color: var(--on-primary);
+    }
+    .stamp--locked {
+      background: var(--surface-container);
+      color: var(--on-surface-variant);
+      border: 1.5px solid var(--outline-variant);
+    }
+    .stamp--error {
+      background: var(--error);
+      color: var(--on-error);
+    }
+
+    /* Ink Blocks */
+    .ink-block {
+      background: var(--surface-container-low);
+      border: var(--ink-border);
+      border-radius: var(--rounded-lg);
+      box-shadow: var(--offset-pink);
+      padding: var(--space-lg);
+    }
+    .ink-block--blue {
+      box-shadow: var(--offset-blue);
+    }
+    .ink-block--yellow {
+      background: var(--surface-container-high);
+      box-shadow: var(--offset-blue);
+    }
+    .ink-block--recessed {
+      background: var(--surface-container);
+      box-shadow: var(--offset-sm);
+    }
+
+    /* Header */
+    .hero-header {
+      display: grid;
+      grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+      gap: var(--space-lg);
+      align-items: start;
+      border-bottom: var(--ink-border);
+      padding-bottom: var(--space-lg);
+    }
+    .hero-kicker-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-sm);
+    }
+    .hero-title {
+      font-size: var(--display-size);
+      margin-bottom: var(--space-sm);
+    }
+    .hero-subtitle {
+      margin: 0;
+      max-width: 62ch;
+      color: var(--on-surface-variant);
+      font-size: var(--body-size);
+    }
+    .highlight-flood {
+      background: var(--primary-container);
+      color: var(--on-primary-container);
+      padding: 0 var(--space-xs);
+      font-weight: 600;
+    }
+
+    /* Status / Key Figures Strip */
+    .stats-strip {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-md);
+    }
+    .stat-tile {
+      background: var(--surface-container-low);
+      border: var(--ink-border);
+      border-radius: var(--rounded-lg);
+      box-shadow: var(--offset-sm);
+      padding: var(--space-md);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+    .stat-tile:nth-child(even) {
+      background: var(--surface-container-high);
+    }
+    .stat-label {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--on-surface-variant);
+    }
+    .stat-value {
+      font-family: var(--font-headline);
+      font-weight: 900;
+      font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem);
+      line-height: 1.05;
+      color: var(--on-surface);
+      font-variant-numeric: tabular-nums;
+    }
+    .stat-note {
+      font-size: 0.8125rem;
+      color: var(--tertiary);
+      font-weight: 600;
+    }
+
+    /* Timeline & Overprint Chart */
+    .timeline-panel {
+      display: grid;
+      gap: var(--space-md);
+    }
+    .timeline-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+    .panel-title {
+      font-family: var(--font-headline);
+      font-weight: 800;
+      font-size: var(--headline-size);
+      color: var(--on-surface);
+      margin: 0;
+      letter-spacing: -0.01em;
+    }
+    .chart-box {
+      width: 100%;
+      min-height: 155px;
+      overflow: hidden;
+    }
+    .chart-svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .chart-mark {
+      mix-blend-mode: multiply;
+    }
+
+    /* Stage Stepper Grid */
+    .stages-nav {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: var(--space-md);
+    }
+    .stage-btn {
+      appearance: none;
+      text-align: left;
+      background: var(--surface-container-low);
+      border: var(--ink-border);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-md);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: var(--space-sm);
+      min-height: 112px;
+      box-shadow: var(--offset-sm);
+      transition: transform var(--dur-micro) var(--ease-out),
+                  box-shadow var(--dur-micro) var(--ease-out),
+                  background-color var(--dur-micro) var(--ease-out);
+      color: var(--on-surface);
+    }
+    .stage-btn:hover:not(:disabled) {
+      transform: translate(1px, 1px);
+      box-shadow: 2px 2px 0 var(--primary);
+    }
+    .stage-btn.is-active {
+      background: var(--surface-container-high);
+      box-shadow: var(--offset-pink);
+    }
+    .stage-btn.is-passed {
+      border-color: var(--positive);
+      box-shadow: 3px 3px 0 var(--positive);
+    }
+    .stage-btn.is-passed.is-active {
+      background: var(--positive-bg);
+    }
+    .stage-btn:disabled {
+      background: var(--surface-container);
+      border-color: var(--outline-variant);
+      box-shadow: none;
+      color: var(--on-surface-variant);
+      cursor: not-allowed;
+      opacity: 0.85;
+    }
+    .stage-btn-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--space-xs);
+      width: 100%;
+    }
+    .stage-num {
+      font-family: var(--font-label);
+      font-weight: 700;
+      font-size: var(--label-size);
+      letter-spacing: 0.06em;
+    }
+    .stage-btn-title {
+      font-family: var(--font-headline);
+      font-weight: 800;
+      font-size: 0.95rem;
+      line-height: 1.2;
+    }
+    .stage-btn-meta {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      color: var(--on-surface-variant);
+    }
+
+    /* Main Workspace Layout: Briefing + Questions */
+    .workspace-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.85fr);
+      gap: var(--space-lg);
+      align-items: start;
+    }
+
+    /* Left Briefing Sidebar */
+    .briefing-card {
+      display: grid;
+      gap: var(--space-md);
+    }
+    .era-pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-xs);
+      align-items: center;
+    }
+    .briefing-svg-wrap {
+      background: var(--background);
+      border: var(--ink-border);
+      border-radius: var(--rounded);
+      padding: var(--space-sm);
+      min-height: 140px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .briefing-list {
+      margin: 0;
+      padding-left: var(--space-lg);
+      display: grid;
+      gap: var(--space-sm);
+    }
+    .briefing-list li {
+      line-height: 1.45;
+    }
+    .rule-note {
+      border-top: var(--ink-border);
+      padding-top: var(--space-sm);
+      font-size: 0.875rem;
+      color: var(--on-surface-variant);
+    }
+
+    /* Questions Column */
+    .quiz-column {
+      display: grid;
+      gap: var(--space-lg);
+    }
+    .stage-banner {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--space-md);
+      padding-bottom: var(--space-md);
+      border-bottom: var(--ink-border);
+    }
+    .question-card {
+      background: var(--surface-container-low);
+      border: var(--ink-border);
+      border-radius: var(--rounded-lg);
+      box-shadow: var(--offset-sm);
+      padding: var(--space-lg);
+      display: grid;
+      gap: var(--space-md);
+      transition: background-color var(--dur-short) var(--ease-out);
+    }
+    .question-card.is-correct {
+      border-color: var(--positive);
+      box-shadow: 4px 4px 0 var(--positive);
+    }
+    .question-card.is-wrong {
+      border-color: var(--error);
+      box-shadow: 4px 4px 0 var(--error);
+    }
+    .question-head {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+    .question-text {
+      margin: 0;
+      font-family: var(--font-headline);
+      font-weight: 800;
+      font-size: var(--subhead-size);
+      line-height: 1.3;
+      color: var(--on-surface);
+    }
+
+    .options-list {
+      display: grid;
+      gap: var(--space-sm);
+    }
+    .option-btn {
+      appearance: none;
+      width: 100%;
+      min-height: 48px;
+      text-align: left;
+      background: var(--background);
+      border: var(--ink-border);
+      border-radius: var(--rounded);
+      padding: var(--space-sm) var(--space-md);
+      cursor: pointer;
+      display: grid;
+      grid-template-columns: 32px minmax(0, 1fr);
+      gap: var(--space-sm);
+      align-items: center;
+      color: var(--on-surface);
+      font-size: var(--body-size);
+      line-height: 1.35;
+      transition: transform var(--dur-micro) var(--ease-out),
+                  background-color var(--dur-micro) var(--ease-out),
+                  box-shadow var(--dur-micro) var(--ease-out);
+    }
+    .option-btn:hover:not(:disabled) {
+      background: var(--surface-container-high);
+      transform: translate(-1px, -1px);
+      box-shadow: 2px 2px 0 var(--outline);
+    }
+    .option-btn.is-selected {
+      background: var(--primary-container);
+      box-shadow: 3px 3px 0 var(--outline);
+      font-weight: 600;
+    }
+    .option-btn.is-correct-choice {
+      background: var(--positive-bg);
+      border-color: var(--positive);
+      box-shadow: 3px 3px 0 var(--positive);
+      font-weight: 600;
+    }
+    .option-btn.is-wrong-choice {
+      background: var(--error-bg);
+      border-color: var(--error);
+      box-shadow: 3px 3px 0 var(--error);
+    }
+    .option-btn:disabled {
+      cursor: default;
+    }
+
+    .option-letter {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border: 2px solid var(--outline);
+      border-radius: var(--rounded);
+      background: var(--surface-container-low);
+      font-family: var(--font-label);
+      font-weight: 700;
+      font-size: 0.875rem;
+      color: var(--on-surface);
+    }
+    .option-btn.is-selected .option-letter {
+      background: var(--outline);
+      color: var(--on-primary);
+    }
+    .option-btn.is-correct-choice .option-letter {
+      background: var(--positive);
+      border-color: var(--positive);
+      color: var(--on-primary);
+    }
+    .option-btn.is-wrong-choice .option-letter {
+      background: var(--error);
+      border-color: var(--error);
+      color: var(--on-error);
+    }
+
+    .feedback-box {
+      border-radius: var(--rounded);
+      padding: var(--space-sm) var(--space-md);
+      font-size: 0.9375rem;
+      border-left: 4px solid var(--outline);
+      background: var(--surface-container);
+    }
+    .feedback-box--ok {
+      border-left-color: var(--positive);
+      background: var(--positive-bg);
+      color: var(--on-surface);
+    }
+    .feedback-box--hint {
+      border-left-color: var(--warning);
+      background: var(--warning-bg);
+      color: var(--on-surface);
+    }
+
+    /* Action Buttons */
+    .actions-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-md);
+    }
+    .btn-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-md);
+      align-items: center;
+    }
+    .btn {
+      appearance: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-sm);
+      min-height: 46px;
+      padding: var(--space-sm) var(--space-lg);
+      border: var(--ink-border);
+      border-radius: var(--rounded);
+      font-family: var(--font-label);
+      font-weight: 700;
+      font-size: 0.875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      transition: transform var(--dur-micro) var(--ease-out),
+                  box-shadow var(--dur-micro) var(--ease-out),
+                  background-color var(--dur-micro) var(--ease-out);
+    }
+    .btn:active:not(:disabled) {
+      transform: translate(2px, 2px);
+      box-shadow: none;
+    }
+    .btn--primary {
+      background: var(--secondary);
+      color: var(--on-surface);
+      font-size: 1.125rem;
+      font-family: var(--font-headline);
+      font-weight: 800;
+      text-transform: none;
+      letter-spacing: -0.01em;
+      box-shadow: var(--offset-sm);
+    }
+    .btn--primary:hover:not(:disabled) {
+      transform: translate(1px, 1px);
+      box-shadow: 2px 2px 0 var(--primary);
+    }
+    .btn--blue {
+      background: var(--primary);
+      color: var(--on-primary);
+      box-shadow: var(--offset-navy);
+    }
+    .btn--blue:hover:not(:disabled) {
+      transform: translate(1px, 1px);
+      box-shadow: 2px 2px 0 var(--outline);
+    }
+    .btn--secondary {
+      background: var(--primary-container);
+      color: var(--on-primary-container);
+      box-shadow: var(--offset-sm);
+    }
+    .btn--secondary:hover:not(:disabled) {
+      transform: translate(1px, 1px);
+      box-shadow: 2px 2px 0 var(--primary);
+    }
+    .btn--ghost {
+      background: var(--surface-container-low);
+      color: var(--on-surface);
+      box-shadow: none;
+    }
+    .btn--ghost:hover:not(:disabled) {
+      background: var(--surface-container);
+    }
+
+    /* Inline status message */
+    .inline-notice {
+      padding: var(--space-md);
+      border: var(--ink-border);
+      border-radius: var(--rounded);
+      font-weight: 600;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-md);
+    }
+    .inline-notice--error {
+      background: var(--error-bg);
+      border-color: var(--error);
+      color: var(--error);
+    }
+    .inline-notice--positive {
+      background: var(--positive-bg);
+      border-color: var(--positive);
+      color: var(--on-surface);
+    }
+    .inline-notice--warning {
+      background: var(--warning-bg);
+      border-color: var(--warning);
+      color: var(--on-surface);
+    }
+
+    /* Final diploma / summary */
+    .final-summary {
+      background: var(--surface-container-high);
+      border: var(--ink-border);
+      border-radius: var(--rounded-lg);
+      box-shadow: var(--offset-pink);
+      padding: var(--space-lg);
+      display: grid;
+      gap: var(--space-md);
+    }
+    .summary-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9375rem;
+    }
+    .summary-table th {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      text-align: left;
+      padding: var(--space-sm);
+      border-bottom: var(--ink-border);
+    }
+    .summary-table td {
+      padding: var(--space-sm);
+      border-bottom: var(--ink-border-subtle);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .footer-credits {
+      border-top: var(--ink-border);
+      padding-top: var(--space-md);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--space-md);
+      font-size: 0.875rem;
+      color: var(--on-surface-variant);
+    }
+
+    .hidden { display: none !important; }
+
+    @media (max-width: 900px) {
+      .hero-header { grid-template-columns: 1fr; }
+      .workspace-grid { grid-template-columns: 1fr; }
+      .stages-nav { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 640px) {
+      .page-grid { padding: var(--space-md); gap: var(--space-md); }
+      .stats-strip { grid-template-columns: 1fr; }
+      .stages-nav { grid-template-columns: 1fr; }
+      .ink-block, .question-card { padding: var(--space-md); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page-grid">
+    <!-- HEADER + KEY METRICS -->
+    <header class="hero-header">
+      <div>
+        <div class="hero-kicker-row">
+          <span class="stamp">3º ESO · PDC</span>
+          <span class="stamp stamp--yellow">Autoevaluación secuenciada</span>
+        </div>
+        <h1 class="misregister hero-title">El origen de la Tierra</h1>
+        <p class="hero-subtitle">
+          Recorre los <strong>5 apartados progresivos</strong> del documental y comprueba lo que has aprendido desde la formación del planeta hasta la aparición del ser humano. Para desbloquear cada etapa necesitas superar la anterior con al menos <span class="highlight-flood">4 de 5 aciertos</span>.
+        </p>
+      </div>
+
+      <div class="stats-strip" aria-label="Resumen de progreso">
+        <div class="stat-tile">
+          <span class="stat-label">Apartados</span>
+          <span class="stat-value" id="stat-stages">0 / 5</span>
+          <span class="stat-note" id="stat-stages-note">Etapa 1 activa</span>
+        </div>
+        <div class="stat-tile">
+          <span class="stat-label">Aciertos</span>
+          <span class="stat-value" id="stat-score">0 / 25</span>
+          <span class="stat-note" id="stat-percent">0 % completado</span>
+        </div>
+        <div class="stat-tile">
+          <span class="stat-label">Tiempo cubierto</span>
+          <span class="stat-value" id="stat-era">4.540 M.a.</span>
+          <span class="stat-note" id="stat-era-note">Inicio del viaje</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- CHRONOLOGICAL OVERPRINT TIMELINE CHART -->
+    <section class="ink-block timeline-panel" aria-labelledby="timeline-heading">
+      <div class="timeline-header">
+        <div>
+          <h2 class="panel-title" id="timeline-heading">Línea evolutiva del planeta y niveles de oxígeno</h2>
+          <p class="hero-subtitle">Se completa a medida que superas cada apartado del cuestionario.</p>
+        </div>
+        <div class="btn-group">
+          <button type="button" class="btn btn--ghost" id="btn-export" onclick="exportProgress()">Exportar ficha (.txt)</button>
+          <button type="button" class="btn btn--ghost" id="btn-reset" onclick="handleResetClick(this)">Reiniciar progreso</button>
+        </div>
+      </div>
+      <div class="chart-box">
+        <svg id="timeline-svg" class="chart-svg" viewBox="0 0 960 155" role="img" aria-label="Gráfico cronológico de los cinco apartados de la historia de la Tierra"></svg>
+      </div>
+    </section>
+
+    <!-- SEQUENTIAL STAGE STEPPER -->
+    <nav class="stages-nav" id="stages-nav" aria-label="Apartados secuenciados del cuestionario"></nav>
+
+    <!-- FINAL COMPLETION SUMMARY (SHOWN WHEN ALL 5 STAGES PASSED) -->
+    <section id="final-summary-panel" class="final-summary hidden" aria-live="polite">
+      <div class="stage-banner">
+        <div>
+          <span class="stamp stamp--positive">¡Misión completada!</span>
+          <h2 class="panel-title" style="margin-top: var(--space-sm);">Has completado los 5 apartados de «El origen de la Tierra»</h2>
+        </div>
+        <button type="button" class="btn btn--blue" onclick="exportProgress()">Descargar informe final</button>
+      </div>
+      <p style="margin: 0;">Ya dominas la secuencia completa desde la bola de lava hace 4.540 millones de años hasta los primeros humanos bípedos. Puedes repasar cualquier apartado o descargar tu ficha de resultados.</p>
+      <table class="summary-table">
+        <thead>
+          <tr>
+            <th>Apartado</th>
+            <th>Periodo</th>
+            <th>Mejor resultado</th>
+            <th>Estado</th>
+          </tr>
+        </thead>
+        <tbody id="summary-tbody"></tbody>
+      </table>
+    </section>
+
+    <!-- ACTIVE STAGE WORKSPACE -->
+    <section class="workspace-grid" id="workspace-area">
+      <!-- LEFT: BRIEFING GUIDE -->
+      <aside class="ink-block ink-block--yellow briefing-card" aria-labelledby="briefing-title">
+        <div class="era-pill-row">
+          <span class="stamp" id="briefing-badge">Apartado 1</span>
+          <span class="stamp stamp--yellow" id="briefing-era">5.000 – 4.540 M.a.</span>
+        </div>
+        <h2 class="panel-title" id="briefing-title">Nacimiento de la Tierra y la Luna</h2>
+        <div class="briefing-svg-wrap" id="briefing-illustration" aria-hidden="true"></div>
+        <div>
+          <strong style="font-family: var(--font-label); font-size: var(--label-size); text-transform: uppercase; letter-spacing: 0.05em;">Claves del documental para recordar:</strong>
+          <ul class="briefing-list" id="briefing-bullets"></ul>
+        </div>
+        <p class="rule-note" id="briefing-rule">
+          Responde las 5 preguntas de la derecha. Necesitas al menos <strong>4 aciertos</strong> para desbloquear el siguiente apartado.
+        </p>
+      </aside>
+
+      <!-- RIGHT: QUIZ QUESTIONS -->
+      <div class="quiz-column">
+        <div class="ink-block ink-block--blue">
+          <div class="stage-banner">
+            <div>
+              <span class="stamp" id="quiz-status-badge">Etapa activa</span>
+              <h2 class="panel-title" id="quiz-stage-heading" style="margin-top: var(--space-xs);">Cuestionario del Apartado 1</h2>
+            </div>
+            <span class="stat-label" id="quiz-answered-counter">0 / 5 respondidas</span>
+          </div>
+
+          <div id="stage-notice" class="inline-notice hidden" role="status" aria-live="polite" style="margin-top: var(--space-md);"></div>
+
+          <div id="questions-container" class="quiz-column" style="margin-top: var(--space-md);"></div>
+
+          <div class="actions-bar" style="margin-top: var(--space-lg); padding-top: var(--space-md); border-top: var(--ink-border);">
+            <div class="btn-group">
+              <button type="button" class="btn btn--primary" id="btn-submit-stage" onclick="submitStage()">Comprobar Apartado 1</button>
+              <button type="button" class="btn btn--secondary hidden" id="btn-retry-stage" onclick="retryStage()">Corregir respuestas</button>
+            </div>
+            <button type="button" class="btn btn--blue hidden" id="btn-next-stage" onclick="goToNextStage()">Pasar al Apartado 2 →</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer-credits">
+      <span>Fuente: Documental <em>«El origen de la Tierra»</em> (canal brunodesosa) — Adaptado para 3º ESO PDC.</span>
+      <span>Progreso guardado automáticamente en la sesión del cuaderno.</span>
+    </footer>
+  </main>
+
+  <api-shim></api-shim>
+
+  <script>
+    const PASS_THRESHOLD = 4;
+
+    const STAGES = [
+      {
+        id: 1,
+        shortTitle: `Nacimiento y Luna`,
+        title: `Nacimiento de la Tierra y la Luna`,
+        era: `5.000 – 4.540 M.a.`,
+        eraShort: `4.540 M.a.`,
+        oxygenPct: 0,
+        bullets: [
+          `Hace casi 5.000 M.a., la gravedad unió polvo y rocas alrededor del Sol naciente para formar la Tierra.`,
+          `Hace 4.540 M.a., la Tierra superaba los 1.200 °C: un océano de lava con atmósfera tóxica (CO₂, nitrógeno y vapor de agua).`,
+          `El impacto del planeta Tea (del tamaño de Marte) lanzó escombros al espacio que formaron la Luna a 22.000 km de distancia y dejó días de solo 6 horas.`
+        ],
+        questions: [
+          {
+            id: `s1_q1`,
+            prompt: `¿Qué fuerza física fue uniendo durante millones de años el polvo y las pequeñas rocas alrededor del Sol para formar la Tierra?`,
+            options: [
+              `La presión de los primeros océanos de agua dulce.`,
+              `El magnetismo de los meteoritos de hielo espacial.`,
+              `La gravedad que atraía y agrupaba los materiales.`,
+              `La capa de ozono al enfriarse en la atmósfera.`
+            ],
+            correctIndex: 2, // C
+            explanation: `En los primeros minutos del documental se muestra cómo la gravedad convierte el polvo cósmico en rocas y, tras millones de años, en la Tierra.`,
+            hint: `Pista del inicio del documental: piensa en la fuerza invisible que atrae el polvo y las rocas alrededor del Sol naciente.`
+          },
+          {
+            id: `s1_q2`,
+            prompt: `Hace 4.540 millones de años, ¿cómo era la superficie y el ambiente de nuestro planeta recién nacido?`,
+            options: [
+              `Una bola hirviente a más de 1.200 °C cubierta por un océano de lava y aire tóxico sin oxígeno respirable.`,
+              `Un planeta completamente cubierto por una capa de hielo de 3 kilómetros de grosor.`,
+              `Un océano de agua templada lleno de islas verdes y musgos primitivos.`,
+              `Una superficie rocosa fría a 50 grados bajo cero con atmósfera rica en oxígeno.`
+            ],
+            correctIndex: 0, // A
+            explanation: `El planeta superaba los 1.200 °C, no había superficies sólidas sino un océano de lava, y la atmósfera solo tenía CO₂, nitrógeno y vapor de agua.`,
+            hint: `Pista: el documental describe esa etapa inicial diciendo que la Tierra parecía más un «infierno» a más de 1.200 °C que un hogar.`
+          },
+          {
+            id: `s1_q3`,
+            prompt: `¿De dónde surgió la Luna según explica el documental?`,
+            options: [
+              `De un asteroide gigante que cayó en la península de Yucatán.`,
+              `De erupciones volcánicas submarinas que expulsaron islas al espacio.`,
+              `De un trozo de hielo desprendido del Sol naciente.`,
+              `Del anillo de escombros producido cuando el joven planeta Tea chocó contra la Tierra.`
+            ],
+            correctIndex: 3, // D
+            explanation: `Tea (del tamaño de Marte) chocó a casi 15 km/s contra la Tierra; en mil años la gravedad reunió los escombros del anillo formando la Luna.`,
+            hint: `Pista: recuerda la colisión violenta con un joven planeta del tamaño de Marte que dejó un anillo de escombros alrededor de la Tierra.`
+          },
+          {
+            id: `s1_q4`,
+            prompt: `Tras el impacto que formó la Luna, la Tierra giraba muchísimo más rápido que ahora. ¿Cuánto duraba un día completo entonces?`,
+            options: [
+              `Unas 16 horas, con noches muy frías.`,
+              `Apenas 6 horas (el Sol se ponía tres horas después de salir).`,
+              `Exactamente 24 horas, igual que en la actualidad.`,
+              `Más de 48 horas debido al peso del océano de lava.`
+            ],
+            correctIndex: 1, // B
+            explanation: `El choque aceleró tanto la rotación terrestre que un día completo duraba solo 6 horas (3 horas de día y 3 de noche).`,
+            hint: `Pista: el narrador cuenta que el Sol se ponía tan solo tres horas después de su salida.`
+          },
+          {
+            id: `s1_q5`,
+            prompt: `En el momento de su nacimiento, ¿a qué distancia se encontraba la Luna de la Tierra en comparación con la actualidad?`,
+            options: [
+              `A la misma distancia de siempre: unos 400.000 kilómetros.`,
+              `Mucho más lejos que hoy, a más de dos millones de kilómetros.`,
+              `Mucho más cerca que hoy: a solo 22.000 kilómetros de distancia.`,
+              `Pegada a la corteza terrestre formando los primeros continentes.`
+            ],
+            correctIndex: 2, // C
+            explanation: `La Luna recién formada estaba a solo 22.000 km de la Tierra, frente a los aproximadamente 400.000 km actuales.`,
+            hint: `Pista: al principio se veía gigantesca en el cielo porque estaba casi veinte veces más cerca que los 400.000 km actuales.`
+          }
+        ]
+      },
+      {
+        id: 2,
+        shortTitle: `Agua y vida microscópica`,
+        title: `Agua, islas volcánicas y primeras bacterias`,
+        era: `3.900 – 3.500 M.a.`,
+        eraShort: `3.500 M.a.`,
+        oxygenPct: 4,
+        bullets: [
+          `Hace 3.900 M.a., millones de meteoritos con cristales de sal y diminutas gotitas de agua bombardearon la Tierra durante 20 millones de años, formando los océanos.`,
+          `Las rocas fundidas atravesaron la corteza creando islas volcánicas que originaron los primeros continentes.`,
+          `Hace 3.800 M.a., los aminoácidos espaciales y las chimeneas submarinas generaron las primeras bacterias; hace 3.500 M.a., los estromatolitos produjeron oxígeno mediante fotosíntesis.`
+        ],
+        questions: [
+          {
+            id: `s2_q1`,
+            prompt: `¿Cómo llegó gran parte del agua que formó los primeros océanos de la Tierra hace 3.900 millones de años?`,
+            options: [
+              `Mediante la fotosíntesis realizada por los primeros bosques de musgo.`,
+              `En diminutas gotitas encerradas dentro de cristales en millones de meteoritos.`,
+              `A partir del derretimiento de una capa de hielo de 3 km de altura.`,
+              `Por el choque de la Luna contra la corteza sólida.`
+            ],
+            correctIndex: 1, // B
+            explanation: `Durante más de 20 millones de años, meteoritos con cristales parecidos a granos de sal aportaron pequeñas gotas de agua que se embalsaron al enfriarse la corteza.`,
+            hint: `Pista: el documental compara los cristales del interior de esos proyectiles espaciales con «granos de sal» que guardaban agua.`
+          },
+          {
+            id: `s2_q2`,
+            prompt: `¿Qué proceso geológico dio origen a las primeras islas que más adelante formarían los continentes?`,
+            options: [
+              `La caída de un asteroide gigante en el golfo de México.`,
+              `La acumulación de esqueletos de trilobites en el fondo marino.`,
+              `El movimiento de las placas de África oriental.`,
+              `Rocas fundidas que atravesaron la corteza marina y se enfriaron al salir del océano.`
+            ],
+            correctIndex: 3, // D
+            explanation: `La lava irrumpió desde el fondo a través de la corteza y al enfriarse formó islas volcánicas que en el futuro se unirían en continentes.`,
+            hint: `Pista: piensa en la lava del interior terrestre abriéndose paso hacia la superficie del océano infantil.`
+          },
+          {
+            id: `s2_q3`,
+            prompt: `Hace 3.800 millones de años, ¿qué dos ingredientes se mezclaron en el «caldo químico» del fondo marino para generar las primeras bacterias unicelulares?`,
+            options: [
+              `Minerales, carbono y aminoácidos traídos por meteoritos junto con el líquido caliente de las chimeneas submarinas.`,
+              `Oxígeno de la capa de ozono mezclado con lava a 1.200 °C.`,
+              `Hojas descompuestas de plantas terrestres y agua de lluvia ácida.`,
+              `Cenizas de incendios forestales y gases volcánicos helados.`
+            ],
+            correctIndex: 0, // A
+            explanation: `Una nueva lluvia violenta de meteoritos liberó carbono y aminoácidos que alcanzaron las chimeneas hidrotermales submarinas, creando la vida microscópica.`,
+            hint: `Pista: busca la combinación entre el material orgánico (aminoácidos) llegado del espacio y las «torres» de agua caliente en el fondo del océano.`
+          },
+          {
+            id: `s2_q4`,
+            prompt: `¿Qué eran los estromatolitos que aparecieron hace 3.500 millones de años en aguas poco profundas?`,
+            options: [
+              `Reptiles gigantes herbívoros parecidos a las tortugas.`,
+              `Meteoritos cargados de sal y carbono procedentes de Marte.`,
+              `Colonias de bacterias vivas que parecían rocas y realizaban la fotosíntesis.`,
+              `Depredadores marinos de 60 cm con ojos grandes y dientes afilados.`
+            ],
+            correctIndex: 2, // C
+            explanation: `Los estromatolitos son montañas de bacterias vivas capaces de transformar la luz del Sol, CO₂ y agua en glucosa y oxígeno.`,
+            hint: `Pista: parecían rocas o plantas creciendo en el lecho marino, pero en realidad eran montañas de bacterias vivas.`
+          },
+          {
+            id: `s2_q5`,
+            prompt: `¿Qué gas fundamental para casi toda la vida posterior liberaron los estromatolitos al mar y a la atmósfera durante 2.000 millones de años?`,
+            options: [
+              `Dióxido de carbono.`,
+              `Oxígeno.`,
+              `Nitrógeno puro.`,
+              `Vapor de lava.`
+            ],
+            correctIndex: 1, // B
+            explanation: `Gracias a la fotosíntesis de los estromatolitos, los niveles de oxígeno subieron en el mar y pasaron a la atmósfera.`,
+            hint: `Pista: el documental dice que cada vez que respiramos hoy se lo debemos a estas colonias de bacterias antiguas.`
+          }
+        ]
+      },
+      {
+        id: 3,
+        shortTitle: `Bola de Nieve y Cámbrico`,
+        title: `Tierra Bola de Nieve y Explosión Cámbrica`,
+        era: `650 – 540 M.a.`,
+        eraShort: `540 M.a.`,
+        oxygenPct: 12,
+        bullets: [
+          `Hace 650 M.a., una glaciación extrema («Tierra Bola de Nieve») cubrió todo el planeta con 3 km de hielo y temperaturas de −50 °C.`,
+          `Tras 15 millones de años, el CO₂ de los volcanes derritió el hielo y unas reacciones químicas dispararon la cantidad de oxígeno.`,
+          `Hace 540 M.a. ocurrió la Explosión Cámbrica: surgieron organismos multicelulares con esqueletos (trilobites, Anomalocaris y Pikaia, con la primera espina dorsal).`
+        ],
+        questions: [
+          {
+            id: `s3_q1`,
+            prompt: `Durante el periodo llamado «Tierra Bola de Nieve» (hace 650 M.a.), ¿qué grosor aproximado alcanzó la capa de hielo que envolvía el planeta?`,
+            options: [
+              `Apenas unos 10 centímetros en los polos.`,
+              `Unos 50 metros solo sobre los continentes.`,
+              `Alrededor de 500 metros en el hemisferio sur.`,
+              `Unos 3 kilómetros de altura por todo el planeta.`
+            ],
+            correctIndex: 3, // D
+            explanation: `El documental señala que la temperatura bajó a −50 °C y todo el planeta quedó envuelto en una capa de hielo de 3 km de altura.`,
+            hint: `Pista: fue la edad de hielo más larga e intensa de la historia, 75 veces más larga que toda la historia humana.`
+          },
+          {
+            id: `s3_q2`,
+            prompt: `¿Qué consiguió liberar finalmente a la Tierra de su prisión helada después de 15 millones de años?`,
+            options: [
+              `Un asteroide de 10 km que cayó sobre el hielo de Australia.`,
+              `Los volcanes, que siguieron en erupción liberando dióxido de carbono y calentando la atmósfera.`,
+              `El acercamiento repentino de la Luna a 22.000 km.`,
+              `Las primeras plantas musgosas que derritieron el hielo con sus raíces.`
+            ],
+            correctIndex: 1, // B
+            explanation: `El núcleo terrestre seguía más caliente que el Sol; el CO₂ expulsado sin cesar por los volcanes acumuló calor hasta fundir el hielo.`,
+            hint: `Pista: aunque la superficie estaba congelada, el interior ardía y las erupciones expulsaban un gas de efecto invernadero.`
+          },
+          {
+            id: `s3_q3`,
+            prompt: `¿Dónde sobrevivió la vida primitiva durante la gran helada para luego evolucionar hace 540 millones de años?`,
+            options: [
+              `En las copas de los árboles más altos de la sabana.`,
+              `Dentro de cráteres secos en las islas volcánicas.`,
+              `En el océano, bajo la capa de hielo.`,
+              `En la capa de ozono a 50 km de altura.`
+            ],
+            correctIndex: 2, // C
+            explanation: `Las bacterias primitivas resistieron en los océanos bajo el hielo y, cuando el agua se llenó de oxígeno, evolucionaron rápidamente.`,
+            hint: `Pista: recuerda el lugar donde había surgido la vida por primera vez, protegido por el agua líquida bajo el manto helado.`
+          },
+          {
+            id: `s3_q4`,
+            prompt: `¿Qué permitió la «Explosión Cámbrica» hace 540 millones de años gracias al aumento del oxígeno en el océano?`,
+            options: [
+              `Que aparecieran animales complejos multicelulares con esqueletos óseos, como los trilobites y el Anomalocaris.`,
+              `Que todos los dinosaurios aprendieran a volar fuera del agua.`,
+              `Que desaparecieran para siempre las bacterias de los océanos.`,
+              `Que los mamíferos salieran de sus madrigueras subterráneas.`
+            ],
+            correctIndex: 0, // A
+            explanation: `El oxígeno permitió que las criaturas crecieran y desarrollaran esqueletos, dando lugar a gusanos, esponjas, trilobites y depredadores como Anomalocaris.`,
+            hint: `Pista: es uno de los periodos más dinámicos de la Tierra, en el que la vida oceánica pasa de microscópica a organismos grandes y complejos.`
+          },
+          {
+            id: `s3_q5`,
+            prompt: `Entre las criaturas marinas del Cámbrico aparece Pikaia, un animal de solo 5 cm. ¿Por qué es tan importante para nuestra historia evolutiva?`,
+            options: [
+              `Porque ponía huevos con cáscara en tierra firme.`,
+              `Porque fue el primer insecto volador del tamaño de un águila.`,
+              `Porque destruyó a todos los dinosaurios carnívoros.`,
+              `Porque poseía una estructura primitiva precursora de la primera espina dorsal.`
+            ],
+            correctIndex: 3, // D
+            explanation: `Pikaia medía unos 5 cm y presentaba la estructura sencilla que durante millones de años evolucionaría hasta convertirse en nuestra espina dorsal.`,
+            hint: `Pista: fíjate en la estructura interna de su cuerpo que, millones de años después, nos permite hoy mantenernos erguidos.`
+          }
+        ]
+      },
+      {
+        id: 4,
+        shortTitle: `Ozono y tierra firme`,
+        title: `Capa de ozono, tetrápodos y reptiles`,
+        era: `400 – 250 M.a.`,
+        eraShort: `360 M.a.`,
+        oxygenPct: 28,
+        bullets: [
+          `Al principio la radiación solar impedía la vida en los continentes; a 50 km de altura el oxígeno formó la capa de ozono, actuando como escudo protector.`,
+          `Surgen los musgos terrestres y peces como Tiktaalik usan sus aletas como patas para salir del agua (tetrápodos, hace 360 M.a.).`,
+          `El alto oxígeno originó artrópodos gigantes (libélula Meganeura); después, reptiles como Hylonomus inventaron el huevo autónomo para conquistar el interior del continente.`
+        ],
+        questions: [
+          {
+            id: `s4_q1`,
+            prompt: `Antes de que existiera la capa de ozono, ¿por qué estaba casi desierta la tierra firme a pesar de tener una temperatura de 30 °C?`,
+            options: [
+              `Porque todavía no existían océanos ni ríos en la Tierra.`,
+              `Porque la radiación mortal del Sol quemaba la superficie sin protección.`,
+              `Porque el planeta seguía cubierto por una capa de hielo de 3 km.`,
+              `Porque el impacto del asteroide de Yucatán había quemado todo.`
+            ],
+            correctIndex: 1, // B
+            explanation: `Sin capa de ozono, la radiación solar letal impedía que las formas de vida complejas sobrevivieran fuera del agua.`,
+            hint: `Pista: mira hacia el cielo a 50 kilómetros de altura; el oxígeno aún no había formado un filtro frente a los rayos del Sol.`
+          },
+          {
+            id: `s4_q2`,
+            prompt: `¿Cómo se forma la capa de ozono a unos 50 kilómetros de altura sobre la Tierra?`,
+            options: [
+              `Con el humo y las cenizas de los incendios forestales.`,
+              `Con los aminoácidos liberados por las chimeneas submarinas.`,
+              `Cuando el oxígeno atmosférico se encuentra con la radiación del Sol y se transforma en ozono.`,
+              `Cuando el dióxido de carbono volcánico se congela en la estratosfera.`
+            ],
+            correctIndex: 2, // C
+            explanation: `Al chocar con la radiación solar, el oxígeno se transforma en ozono, creando un manto que tardó 120 millones de años en espesarse y proteger la superficie.`,
+            hint: `Pista: requiere dos elementos clave que ya existían entonces: el gas fabricado por las bacterias fotosintéticas y la energía solar.`
+          },
+          {
+            id: `s4_q3`,
+            prompt: `Hace unos 360 millones de años, ¿qué paso decisivo dieron los tetrápodos (evolucionados a partir de peces con cuello y aletas fuertes como Tiktaalik)?`,
+            options: [
+              `Inventaron el vuelo con alas membranosas como las libélulas.`,
+              `Regresaron al fondo oceánico para convertirse en esponjas.`,
+              `Aprendieron a caminar sobre dos patas en la sabana africana.`,
+              `Salieron del agua y convirtieron la tierra firme en su hogar.`
+            ],
+            correctIndex: 3, // D
+            explanation: `Durante más de 15 millones de años fortalecieron sus extremidades hasta vivir en el suelo; de ellos evolucionaron dinosaurios, aves y mamíferos.`,
+            hint: `Pista: piensa en el cambio de usar aletas para nadar a usarlas como patas en el suelo cubierto de musgos.`
+          },
+          {
+            id: `s4_q4`,
+            prompt: `¿Por qué había libélulas del tamaño de un águila (Meganeura) y milpiés de dos metros en aquella época?`,
+            options: [
+              `Porque comían dinosaurios pequeños y veloces.`,
+              `Porque el altísimo nivel de oxígeno hacía más eficaz su sistema respiratorio y les permitía crecer mucho más.`,
+              `Porque la gravedad de la Tierra era casi nula al estar la Luna cerca.`,
+              `Porque vivían dentro de chimeneas submarinas calientes.`
+            ],
+            correctIndex: 1, // B
+            explanation: `La abundancia de oxígeno liberada por las plantas terrestres permitió que los artrópodos respiraran con mayor eficacia y alcanzaran tamaños gigantescos.`,
+            hint: `Pista: el documental relaciona directamente el tamaño monstruoso de estos bichos con la cantidad de cierto gas en el aire.`
+          },
+          {
+            id: `s4_q5`,
+            prompt: `¿Qué gran avance evolutivo aportaron reptiles como Hylonomus para poder alejarse del agua definitivamente?`,
+            options: [
+              `El huevo con agua y nutrientes propios en su interior, como una «laguna autónoma».`,
+              `Un pelaje nocturno para refugiarse bajo tierra de los dinosaurios.`,
+              `Dientes de sable para cazar en las praderas heladas de Australia.`,
+              `Branquias capaces de absorber nitrógeno del aire tóxico.`
+            ],
+            correctIndex: 0, // A
+            explanation: `A diferencia de los anfibios que ponían huevos en el agua, el huevo amniótico del reptil contiene agua y nutrientes propios para que la cría se desarrolle en tierra.`,
+            hint: `Pista: piensa en cómo lograron que sus crías crecieran sin tener que regresar a charcas o lagos.`
+          }
+        ]
+      },
+      {
+        id: 5,
+        shortTitle: `Asteroide y origen humano`,
+        title: `Dinosaurios, asteroide y origen humano`,
+        era: `185 – 1,5 M.a.`,
+        eraShort: `1,5 M.a.`,
+        oxygenPct: 21,
+        bullets: [
+          `Durante 165 M.a. dominaron los dinosaurios; los mamíferos eran pequeños, nocturnos y vivían en árboles o bajo tierra.`,
+          `Hace 65 M.a., un asteroide de 10 km a 70.000 km/h impactó en Yucatán (golfo de México), calentó la Tierra a 275 °C y bloqueó el Sol meses, extinguiendo a los dinosaurios.`,
+          `Los mamíferos sobrevivieron bajo tierra y comiendo de todo. En África, una cordillera secó el bosque creando la sabana, lo que impulsó el bipedismo y los primeros humanos.`
+        ],
+        questions: [
+          {
+            id: `s5_q1`,
+            prompt: `Mientras los dinosaurios dominaban la Tierra, ¿cómo lograban sobrevivir los pequeños mamíferos parecidos a musarañas?`,
+            options: [
+              `Cazando en manadas a los dinosaurios más grandes durante el día.`,
+              `Viviendo exclusivamente en el fondo marino junto a los estromatolitos.`,
+              `Refugiándose en los árboles o bajo tierra y saliendo solo por la noche.`,
+              `Volando por encima de la capa de ozono para evitar a los depredadores.`
+            ],
+            correctIndex: 2, // C
+            explanation: `Al ser presas de los dinosaurios, la mayoría de los mamíferos vivía en madrigueras subterráneas o en árboles y tenían hábitos nocturnos.`,
+            hint: `Pista: para no ser devorados, evitaban el peligro de día y se escondían bajo la superficie o en las ramas.`
+          },
+          {
+            id: `s5_q2`,
+            prompt: `¿Qué tamaño tenía y dónde cayó el asteroide que puso fin al reinado de los dinosaurios hace 65 millones de años?`,
+            options: [
+              `Medía 50 metros y cayó en el sur de Australia.`,
+              `Medía 3.000 kilómetros y formó un anillo en el espacio.`,
+              `Medía 60 centímetros y cayó en un lago de Alemania.`,
+              `Medía 10 kilómetros de diámetro (mayor que el Everest) y cayó junto a la península de Yucatán, en el golfo de México.`
+            ],
+            correctIndex: 3, // D
+            explanation: `El asteroide de 10 km viajaba a más de 70.000 km/h e impactó en el golfo de México, junto a la península de Yucatán.`,
+            hint: `Pista: era una roca espacial mayor que el monte Everest que impactó en América Central / golfo de México.`
+          },
+          {
+            id: `s5_q3`,
+            prompt: `¿Por qué consiguieron sobrevivir los mamíferos tras el impacto del asteroide y convertirse en los «herederos» de la Tierra?`,
+            options: [
+              `Porque tenían escamas resistentes a temperaturas de 275 °C.`,
+              `Porque al vivir bajo tierra se salvaron del calor y del fuego, y al comer de todo pudieron adaptarse cuando faltaron plantas.`,
+              `Porque construyeron nidos en la cima de los volcanes nevados.`,
+              `Porque su reinado había comenzado hace 3.900 millones de años.`
+            ],
+            correctIndex: 1, // B
+            explanation: `Sus madrigueras los protegieron del calor extremo (275 °C) e incendios, y su dieta omnívora («comer de todo») les dio ventaja frente a especies selectivas.`,
+            hint: `Pista: el documental destaca dos ventajas clave de estos animales pequeños: su refugio y su alimentación variada.`
+          },
+          {
+            id: `s5_q4`,
+            prompt: `En África oriental, ¿qué cambio geográfico y climático obligó a los antepasados de los simios a bajar de los árboles y caminar sobre dos pies?`,
+            options: [
+              `El levantamiento de una cordillera bloqueó la humedad del océano Índico, transformando el bosque húmedo en una sabana árida.`,
+              `Una nueva Tierra Bola de Nieve cubrió África con 3 km de hielo.`,
+              `El choque de Tea redujo el día africano a solo 6 horas.`,
+              `La desaparición de la capa de ozono inundó todo el continente.`
+            ],
+            correctIndex: 0, // A
+            explanation: `Las montañas actuaron como un muro frente a la humedad del océano Índico; al secarse el bosque en sabana, tuvieron que internarse buscando comida y erguirse sobre dos pies.`,
+            hint: `Pista: es un efecto en cadena increíble: dos plataformas terrestres chocan, forman una barrera montañosa y cambian el bosque húmedo por sabana.`
+          },
+          {
+            id: `s5_q5`,
+            prompt: `Hace un millón y medio de años (1,5 M.a.), ¿qué hito marca el comienzo directo de nuestra historia humana al final del documental?`,
+            options: [
+              `La aparición de los primeros trilobites en un océano cálido.`,
+              `La invención del huevo autónomo en las praderas siberianas.`,
+              `Las primeras huellas de pies como los nuestros, dejadas por una temprana especie humana bípeda.`,
+              `La caída del primer meteorito con cristales de sal y gotitas de agua.`
+            ],
+            correctIndex: 2, // C
+            explanation: `El documental culmina mostrando un adulto y un niño de una temprana especie humana bípeda dejando las primeras huellas de pies como las nuestras.`,
+            hint: `Pista: ocurre hace 1,5 millones de años con la escena de un adulto y un niño caminando erguidos sobre el suelo.`
+          }
+        ]
+      }
+    ];
+
+    let appState = {
+      currentStageId: 1,
+      unlockedUpTo: 1,
+      passedStages: [],
+      bestScores: {},       // { "1": 5, ... }
+      answersByStage: {},   // { "1": { "s1_q1": 2, ... }, ... }
+      checkedStages: {}     // { "1": { submitted: true, score: 4, passed: true } }
+    };
+
+    function getStageById(id) {
+      return STAGES.find(s => s.id === id) || STAGES[0];
+    }
+
+    function computeTotalBestScore() {
+      let total = 0;
+      for (const s of STAGES) {
+        total += (appState.bestScores[String(s.id)] || 0);
+      }
+      return total;
+    }
+
+    async function persistState() {
+      try {
+        if (window.notebookAppApi && typeof window.notebookAppApi.setAppState === 'function') {
+          await window.notebookAppApi.setAppState(appState);
+        }
+      } catch (e) {
+        // Ignore storage transport issues silently in standalone preview
+      }
+    }
+
+    function renderStageIllustration(stageId) {
+      const wrap = document.getElementById('briefing-illustration');
+      if (!wrap) return;
+      const svgs = {
+        1: `<svg width="240" height="120" viewBox="0 0 240 120" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="90" cy="62" r="40" fill="var(--data-4)" stroke="var(--outline)" stroke-width="2.5"/>
+              <path d="M58 55 Q90 42 122 60 Q95 78 62 70 Z" fill="var(--primary-container)" opacity="0.7"/>
+              <ellipse cx="115" cy="62" rx="88" ry="22" fill="none" stroke="var(--primary)" stroke-width="2" stroke-dasharray="5 4" transform="rotate(-14 115 62)"/>
+              <circle cx="192" cy="40" r="14" fill="var(--surface-container-low)" stroke="var(--outline)" stroke-width="2.5"/>
+              <text x="192" y="72" text-anchor="middle" font-family="Space Mono, monospace" font-size="10" fill="var(--on-surface)">LUNA</text>
+              <text x="90" y="114" text-anchor="middle" font-family="Space Mono, monospace" font-size="10" fill="var(--on-surface)">TIERRA (1.200 °C)</text>
+            </svg>`,
+        2: `<svg width="240" height="120" viewBox="0 0 240 120" xmlns="http://www.w3.org/2000/svg">
+              <rect x="10" y="64" width="220" height="44" rx="4" fill="var(--data-1)" opacity="0.22" stroke="var(--primary)" stroke-width="2"/>
+              <path d="M45 16 L65 44" stroke="var(--tertiary)" stroke-width="3" stroke-linecap="round"/>
+              <circle cx="67" cy="47" r="7" fill="var(--primary-container)" stroke="var(--outline)" stroke-width="2"/>
+              <path d="M90 108 L90 88 Q90 78 102 78 Q114 78 114 88 L114 108 Z" fill="var(--positive)" stroke="var(--outline)" stroke-width="2"/>
+              <path d="M128 108 L128 82 Q128 70 142 70 Q156 70 156 82 L156 108 Z" fill="var(--positive)" stroke="var(--outline)" stroke-width="2"/>
+              <circle cx="102" cy="54" r="5" fill="var(--secondary)" stroke="var(--outline)" stroke-width="1.5"/>
+              <circle cx="142" cy="46" r="6" fill="var(--secondary)" stroke="var(--outline)" stroke-width="1.5"/>
+              <text x="172" y="50" font-family="Space Mono, monospace" font-size="11" font-weight="700" fill="var(--on-surface)">+O₂</text>
+              <text x="120" y="118" text-anchor="middle" font-family="Space Mono, monospace" font-size="9" fill="var(--on-surface)">ESTROMATOLITOS Y OCÉANO</text>
+            </svg>`,
+        3: `<svg width="240" height="120" viewBox="0 0 240 120" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="68" cy="60" r="36" fill="var(--surface-container-low)" stroke="var(--primary)" stroke-width="3"/>
+              <path d="M40 50 Q68 38 96 52 M36 68 Q68 80 100 66" fill="none" stroke="var(--data-1)" stroke-width="2"/>
+              <text x="68" y="110" text-anchor="middle" font-family="Space Mono, monospace" font-size="9" fill="var(--on-surface)">HIELO 3 KM</text>
+              <path d="M114 60 L138 60" stroke="var(--outline)" stroke-width="2.5" marker-end="url(#arr)"/>
+              <ellipse cx="182" cy="58" rx="34" ry="20" fill="var(--primary-container)" stroke="var(--outline)" stroke-width="2"/>
+              <line x1="158" y1="58" x2="206" y2="58" stroke="var(--outline)" stroke-width="2"/>
+              <line x1="170" y1="42" x2="170" y2="74" stroke="var(--outline)" stroke-width="1.5"/>
+              <line x1="184" y1="39" x2="184" y2="77" stroke="var(--outline)" stroke-width="1.5"/>
+              <line x1="196" y1="42" x2="196" y2="74" stroke="var(--outline)" stroke-width="1.5"/>
+              <text x="182" y="110" text-anchor="middle" font-family="Space Mono, monospace" font-size="9" fill="var(--on-surface)">TRILOBITES (CÁMBRICO)</text>
+            </svg>`,
+        4: `<svg width="240" height="120" viewBox="0 0 240 120" xmlns="http://www.w3.org/2000/svg">
+              <path d="M18 34 Q120 8 222 34" fill="none" stroke="var(--primary)" stroke-width="5" stroke-linecap="round"/>
+              <text x="120" y="18" text-anchor="middle" font-family="Space Mono, monospace" font-size="10" font-weight="700" fill="var(--primary)">CAPA DE OZONO (50 KM)</text>
+              <rect x="20" y="74" width="200" height="28" rx="4" fill="var(--positive-bg)" stroke="var(--outline)" stroke-width="2"/>
+              <ellipse cx="95" cy="70" rx="22" ry="11" fill="var(--positive)" stroke="var(--outline)" stroke-width="2"/>
+              <path d="M84 80 L78 90 M106 80 L112 90" stroke="var(--outline)" stroke-width="3" stroke-linecap="round"/>
+              <ellipse cx="174" cy="68" rx="12" ry="15" fill="var(--primary-container)" stroke="var(--outline)" stroke-width="2"/>
+              <text x="120" y="114" text-anchor="middle" font-family="Space Mono, monospace" font-size="9" fill="var(--on-surface)">TETRÁPODOS Y HUEVO REPTIL</text>
+            </svg>`,
+        5: `<svg width="240" height="120" viewBox="0 0 240 120" xmlns="http://www.w3.org/2000/svg">
+              <path d="M26 24 L68 62" stroke="var(--tertiary)" stroke-width="4" stroke-linecap="round"/>
+              <circle cx="72" cy="66" r="10" fill="var(--data-4)" stroke="var(--outline)" stroke-width="2"/>
+              <path d="M52 84 Q72 68 92 84" fill="var(--primary-container)" stroke="var(--outline)" stroke-width="2"/>
+              <text x="72" y="108" text-anchor="middle" font-family="Space Mono, monospace" font-size="9" fill="var(--on-surface)">YUCATÁN (65 M.a.)</text>
+              <circle cx="178" cy="38" r="8" fill="var(--on-surface)"/>
+              <path d="M178 46 L178 72 M178 54 L166 64 M178 54 L190 62 M178 72 L169 92 M178 72 L187 92" stroke="var(--outline)" stroke-width="3" stroke-linecap="round"/>
+              <text x="178" y="108" text-anchor="middle" font-family="Space Mono, monospace" font-size="9" fill="var(--on-surface)">BIPEDISMO (1,5 M.a.)</text>
+            </svg>`
+      };
+      wrap.innerHTML = svgs[stageId] || svgs[1];
+    }
+
+    function renderTimelineChart() {
+      const svg = document.getElementById('timeline-svg');
+      if (!svg) return;
+
+      const paddingLeft = 62;
+      const paddingRight = 48;
+      const width = 960;
+      const plotWidth = width - paddingLeft - paddingRight;
+      const baselineY = 112;
+      const topY = 24;
+
+      const xPositions = STAGES.map((_, idx) => paddingLeft + (idx * (plotWidth / (STAGES.length - 1))));
+      const oxygenPts = STAGES.map((s, idx) => {
+        const y = baselineY - ((s.oxygenPct / 32) * (baselineY - topY));
+        return { x: xPositions[idx], y, pct: s.oxygenPct, stage: s };
+      });
+
+      const unlockedMaxIdx = Math.max(0, appState.unlockedUpTo - 1);
+      let areaPath = `M ${oxygenPts[0].x} ${baselineY} `;
+      let linePath = `M ${oxygenPts[0].x} ${oxygenPts[0].y} `;
+      for (let i = 0; i <= unlockedMaxIdx; i++) {
+        areaPath += `L ${oxygenPts[i].x} ${oxygenPts[i].y} `;
+        if (i > 0) linePath += `L ${oxygenPts[i].x} ${oxygenPts[i].y} `;
+      }
+      areaPath += `L ${oxygenPts[unlockedMaxIdx].x} ${baselineY} Z`;
+
+      let html = `
+        <line x1="${paddingLeft}" y1="${topY}" x2="${width - paddingRight}" y2="${topY}" stroke="var(--outline-variant)" stroke-dasharray="4 4" stroke-width="1"/>
+        <line x1="${paddingLeft}" y1="${(topY + baselineY) / 2}" x2="${width - paddingRight}" y2="${(topY + baselineY) / 2}" stroke="var(--outline-variant)" stroke-dasharray="4 4" stroke-width="1"/>
+        <text x="10" y="${topY + 4}" font-family="Space Mono, monospace" font-size="10" fill="var(--on-surface-variant)">~30% O₂</text>
+        <text x="10" y="${(topY + baselineY) / 2 + 4}" font-family="Space Mono, monospace" font-size="10" fill="var(--on-surface-variant)">~15% O₂</text>
+        <text x="10" y="${baselineY + 4}" font-family="Space Mono, monospace" font-size="10" fill="var(--on-surface-variant)">0% O₂</text>
+
+        <path class="chart-mark" d="${areaPath}" fill="var(--data-1)" opacity="0.24"/>
+        <path d="${linePath}" fill="none" stroke="var(--data-1)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        <line x1="${paddingLeft}" y1="${baselineY}" x2="${width - paddingRight}" y2="${baselineY}" stroke="var(--outline)" stroke-width="2.5"/>
+      `;
+
+      oxygenPts.forEach((pt, idx) => {
+        const s = pt.stage;
+        const isPassed = appState.passedStages.includes(s.id);
+        const isUnlocked = s.id <= appState.unlockedUpTo;
+        const fill = isPassed ? 'var(--positive)' : (isUnlocked ? 'var(--secondary)' : 'var(--data-context)');
+        const barHeight = isPassed ? 24 : (isUnlocked ? 16 : 8);
+
+        html += `
+          <rect class="chart-mark" x="${pt.x - 10}" y="${baselineY - barHeight}" width="20" height="${barHeight}" fill="${isPassed ? 'var(--data-1)' : 'var(--data-2)'}" opacity="${isUnlocked ? 0.45 : 0.15}"/>
+          <circle cx="${pt.x}" cy="${pt.y}" r="${isUnlocked ? 7 : 5}" fill="${fill}" stroke="var(--outline)" stroke-width="2"/>
+          <text x="${pt.x}" y="${pt.y - 12}" text-anchor="middle" font-family="Space Mono, monospace" font-size="10" font-weight="700" fill="${isUnlocked ? 'var(--on-surface)' : 'var(--on-surface-variant)'}">
+            ${isUnlocked ? `${s.oxygenPct}% O₂` : `Bloq.`}
+          </text>
+          <text x="${pt.x}" y="${baselineY + 18}" text-anchor="middle" font-family="Space Mono, monospace" font-size="11" font-weight="700" fill="var(--on-surface)">
+            Ap.${s.id} · ${s.eraShort}
+          </text>
+          <text x="${pt.x}" y="${baselineY + 34}" text-anchor="middle" font-family="Work Sans, sans-serif" font-size="11" fill="var(--on-surface-variant)">
+            ${s.shortTitle}
+          </text>
+        `;
+      });
+
+      svg.innerHTML = html;
+    }
+
+    function renderHeaderStats() {
+      const passedCount = appState.passedStages.length;
+      const totalScore = computeTotalBestScore();
+      const pct = Math.round((totalScore / 25) * 100);
+      const activeStage = getStageById(appState.currentStageId);
+
+      const elStages = document.getElementById('stat-stages');
+      const elStagesNote = document.getElementById('stat-stages-note');
+      const elScore = document.getElementById('stat-score');
+      const elPercent = document.getElementById('stat-percent');
+      const elEra = document.getElementById('stat-era');
+      const elEraNote = document.getElementById('stat-era-note');
+
+      if (elStages) elStages.textContent = `${passedCount} / 5`;
+      if (elStagesNote) {
+        elStagesNote.textContent = passedCount === 5
+          ? `¡Todas superadas!`
+          : `Apartado ${appState.unlockedUpTo} disponible`;
+      }
+      if (elScore) elScore.textContent = `${totalScore} / 25`;
+      if (elPercent) elPercent.textContent = `${pct} % de aciertos`;
+      if (elEra) elEra.textContent = activeStage.eraShort;
+      if (elEraNote) elEraNote.textContent = activeStage.shortTitle;
+    }
+
+    function renderStageStepper() {
+      const nav = document.getElementById('stages-nav');
+      if (!nav) return;
+
+      nav.innerHTML = STAGES.map(stage => {
+        const isUnlocked = stage.id <= appState.unlockedUpTo;
+        const isPassed = appState.passedStages.includes(stage.id);
+        const isActive = stage.id === appState.currentStageId;
+        const best = appState.bestScores[String(stage.id)];
+
+        let badgeClass = `stamp--locked`;
+        let badgeText = `Bloqueado`;
+        if (isPassed) {
+          badgeClass = `stamp--positive`;
+          badgeText = `Superado`;
+        } else if (isActive) {
+          badgeClass = `stamp--yellow`;
+          badgeText = `En curso`;
+        } else if (isUnlocked) {
+          badgeClass = ``;
+          badgeText = `Abierto`;
+        }
+
+        const scoreText = typeof best === 'number' ? `Mejor: ${best}/5` : (isUnlocked ? `Meta: 4/5` : `Requiere Ap. ${stage.id - 1}`);
+
+        return `
+          <button
+            type="button"
+            class="stage-btn ${isActive ? 'is-active' : ''} ${isPassed ? 'is-passed' : ''}"
+            ${isUnlocked ? '' : 'disabled'}
+            aria-current="${isActive ? 'step' : 'false'}"
+            onclick="selectStage(${stage.id})"
+          >
+            <div class="stage-btn-top">
+              <span class="stage-num">APARTADO 0${stage.id}</span>
+              <span class="stamp ${badgeClass}">${badgeText}</span>
+            </div>
+            <div class="stage-btn-title">${stage.shortTitle}</div>
+            <div class="stage-btn-meta">${stage.eraShort} · ${scoreText}</div>
+          </button>
+        `;
+      }).join('');
+    }
+
+    function renderFinalSummary() {
+      const panel = document.getElementById('final-summary-panel');
+      const tbody = document.getElementById('summary-tbody');
+      if (!panel || !tbody) return;
+
+      if (appState.passedStages.length === STAGES.length) {
+        panel.classList.remove('hidden');
+        tbody.innerHTML = STAGES.map(s => {
+          const score = appState.bestScores[String(s.id)] || 0;
+          return `
+            <tr>
+              <td><strong>Apartado ${s.id}: ${s.title}</strong></td>
+              <td style="font-family: var(--font-label);">${s.era}</td>
+              <td><strong>${score} / 5</strong></td>
+              <td><span class="stamp stamp--positive">Superado</span></td>
+            </tr>
+          `;
+        }).join('');
+      } else {
+        panel.classList.add('hidden');
+      }
+    }
+
+    function renderActiveStage() {
+      const stage = getStageById(appState.currentStageId);
+      const stageKey = String(stage.id);
+      const answers = appState.answersByStage[stageKey] || {};
+      const checkInfo = appState.checkedStages[stageKey] || null;
+      const isSubmitted = Boolean(checkInfo && checkInfo.submitted);
+      const isPassed = Boolean(checkInfo && checkInfo.passed);
+
+      // Briefing column
+      const elBriefBadge = document.getElementById('briefing-badge');
+      const elBriefEra = document.getElementById('briefing-era');
+      const elBriefTitle = document.getElementById('briefing-title');
+      const elBriefBullets = document.getElementById('briefing-bullets');
+      const elBriefRule = document.getElementById('briefing-rule');
+
+      if (elBriefBadge) elBriefBadge.textContent = `Apartado ${stage.id}`;
+      if (elBriefEra) elBriefEra.textContent = stage.era;
+      if (elBriefTitle) elBriefTitle.textContent = stage.title;
+      if (elBriefBullets) {
+        elBriefBullets.innerHTML = stage.bullets.map(b => `<li>${b}</li>`).join('');
+      }
+      if (elBriefRule) {
+        elBriefRule.innerHTML = stage.id < 5
+          ? `Responde las 5 preguntas. Necesitas al menos <strong>${PASS_THRESHOLD} aciertos</strong> para desbloquear el Apartado ${stage.id + 1}.`
+          : `Última etapa del documental. Consigue al menos <strong>${PASS_THRESHOLD} aciertos</strong> para completar la autoevaluación.`;
+      }
+      renderStageIllustration(stage.id);
+
+      // Quiz header
+      const elHeading = document.getElementById('quiz-stage-heading');
+      const elStatusBadge = document.getElementById('quiz-status-badge');
+      const elCounter = document.getElementById('quiz-answered-counter');
+
+      if (elHeading) elHeading.textContent = `Preguntas del Apartado ${stage.id}`;
+      const answeredCount = stage.questions.filter(q => typeof answers[q.id] === 'number').length;
+      if (elCounter) elCounter.textContent = `${answeredCount} / 5 respondidas`;
+
+      if (elStatusBadge) {
+        if (isPassed) {
+          elStatusBadge.className = `stamp stamp--positive`;
+          elStatusBadge.textContent = `Superado (${checkInfo.score}/5)`;
+        } else if (isSubmitted) {
+          elStatusBadge.className = `stamp stamp--error`;
+          elStatusBadge.textContent = `Revisión necesaria (${checkInfo.score}/5)`;
+        } else {
+          elStatusBadge.className = `stamp`;
+          elStatusBadge.textContent = `Etapa activa`;
+        }
+      }
+
+      // Notice box
+      const elNotice = document.getElementById('stage-notice');
+      if (elNotice) {
+        if (checkInfo && checkInfo.validationError) {
+          elNotice.className = `inline-notice inline-notice--error`;
+          elNotice.innerHTML = `<span>Te faltan preguntas por responder en este apartado. Selecciona una opción (A, B, C o D) en las 5 preguntas antes de comprobar.</span>`;
+        } else if (isSubmitted && isPassed) {
+          elNotice.className = `inline-notice inline-notice--positive`;
+          elNotice.innerHTML = stage.id < 5
+            ? `<span><strong>¡Bien hecho! Has obtenido ${checkInfo.score} de 5 aciertos.</strong> El Apartado ${stage.id + 1} ya está desbloqueado.</span>`
+            : `<span><strong>¡Enhorabuena! Has obtenido ${checkInfo.score} de 5 aciertos</strong> y completado toda la autoevaluación.</span>`;
+        } else if (isSubmitted && !isPassed) {
+          elNotice.className = `inline-notice inline-notice--warning`;
+          elNotice.innerHTML = `<span><strong>Has obtenido ${checkInfo.score} de 5 aciertos</strong> (necesitas ${PASS_THRESHOLD}). Lee las pistas en los recuadros marcados y pulsa <strong>«Corregir respuestas»</strong> para volver a intentarlo.</span>`;
+        } else {
+          elNotice.className = `inline-notice hidden`;
+          elNotice.innerHTML = ``;
+        }
+      }
+
+      // Questions list
+      const letters = [`A`, `B`, `C`, `D`];
+      const qContainer = document.getElementById('questions-container');
+      if (qContainer) {
+        qContainer.innerHTML = stage.questions.map((q, idx) => {
+          const selected = answers[q.id];
+          const isQCorrect = isSubmitted && selected === q.correctIndex;
+          const isQWrong = isSubmitted && selected !== q.correctIndex;
+
+          let cardClass = `question-card`;
+          if (isQCorrect) cardClass += ` is-correct`;
+          if (isQWrong) cardClass += ` is-wrong`;
+
+          let statusChip = ``;
+          if (isQCorrect) {
+            statusChip = `<span class="stamp stamp--positive">✓ Correcta</span>`;
+          } else if (isQWrong) {
+            statusChip = `<span class="stamp stamp--error">✕ Revisar</span>`;
+          }
+
+          const optionsHtml = q.options.map((optText, optIdx) => {
+            const isSelected = selected === optIdx;
+            let optClass = `option-btn`;
+            if (isSubmitted) {
+              if (isPassed && optIdx === q.correctIndex) {
+                optClass += ` is-correct-choice`;
+              } else if (isSelected && optIdx === q.correctIndex) {
+                optClass += ` is-correct-choice`;
+              } else if (isSelected && optIdx !== q.correctIndex) {
+                optClass += ` is-wrong-choice`;
+              }
+            } else if (isSelected) {
+              optClass += ` is-selected`;
+            }
+
+            return `
+              <button
+                type="button"
+                class="${optClass}"
+                ${isSubmitted ? 'disabled' : ''}
+                aria-pressed="${isSelected ? 'true' : 'false'}"
+                onclick="selectOption('${q.id}', ${optIdx})"
+              >
+                <span class="option-letter">${letters[optIdx]}</span>
+                <span>${optText}</span>
+              </button>
+            `;
+          }).join('');
+
+          let feedbackHtml = ``;
+          if (isSubmitted) {
+            if (isQCorrect || isPassed) {
+              feedbackHtml = `
+                <div class="feedback-box feedback-box--ok">
+                  <strong>Explicación:</strong> ${q.explanation}
+                </div>
+              `;
+            } else {
+              feedbackHtml = `
+                <div class="feedback-box feedback-box--hint">
+                  <strong>${q.hint}</strong>
+                </div>
+              `;
+            }
+          }
+
+          return `
+            <article class="${cardClass}" id="card-${q.id}">
+              <div class="question-head">
+                <span class="stamp">Pregunta ${idx + 1} de 5</span>
+                ${statusChip}
+              </div>
+              <h3 class="question-text">${q.prompt}</h3>
+              <div class="options-list" role="group" aria-label="Opciones para la pregunta ${idx + 1}">
+                ${optionsHtml}
+              </div>
+              ${feedbackHtml}
+            </article>
+          `;
+        }).join('');
+      }
+
+      // Action buttons visibility
+      const btnSubmit = document.getElementById('btn-submit-stage');
+      const btnRetry = document.getElementById('btn-retry-stage');
+      const btnNext = document.getElementById('btn-next-stage');
+
+      if (btnSubmit) {
+        btnSubmit.textContent = `Comprobar Apartado ${stage.id}`;
+        btnSubmit.classList.toggle('hidden', isSubmitted);
+      }
+      if (btnRetry) {
+        btnRetry.textContent = isPassed ? `Repetir este apartado` : `Corregir respuestas`;
+        btnRetry.classList.toggle('hidden', !isSubmitted);
+      }
+      if (btnNext) {
+        const showNext = isPassed && stage.id < STAGES.length;
+        btnNext.textContent = `Pasar al Apartado ${stage.id + 1} →`;
+        btnNext.classList.toggle('hidden', !showNext);
+      }
+    }
+
+    function renderAll() {
+      renderHeaderStats();
+      renderTimelineChart();
+      renderStageStepper();
+      renderFinalSummary();
+      renderActiveStage();
+    }
+
+    // Hoisted global handlers
+    function selectStage(stageId) {
+      if (stageId > appState.unlockedUpTo) return;
+      appState.currentStageId = stageId;
+      renderAll();
+      persistState();
+      const workspace = document.getElementById('workspace-area');
+      if (workspace) workspace.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function selectOption(questionId, optionIndex) {
+      const stageKey = String(appState.currentStageId);
+      const checkInfo = appState.checkedStages[stageKey];
+      if (checkInfo && checkInfo.submitted) return;
+
+      if (!appState.answersByStage[stageKey]) {
+        appState.answersByStage[stageKey] = {};
+      }
+      appState.answersByStage[stageKey][questionId] = optionIndex;
+
+      if (checkInfo && checkInfo.validationError) {
+        delete appState.checkedStages[stageKey];
+      }
+
+      renderActiveStage();
+      persistState();
+    }
+
+    function submitStage() {
+      const stage = getStageById(appState.currentStageId);
+      const stageKey = String(stage.id);
+      const answers = appState.answersByStage[stageKey] || {};
+
+      const allAnswered = stage.questions.every(q => typeof answers[q.id] === 'number');
+      if (!allAnswered) {
+        appState.checkedStages[stageKey] = { submitted: false, validationError: true };
+        renderActiveStage();
+        const notice = document.getElementById('stage-notice');
+        if (notice) notice.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        return;
+      }
+
+      let score = 0;
+      for (const q of stage.questions) {
+        if (answers[q.id] === q.correctIndex) score++;
+      }
+      const passed = score >= PASS_THRESHOLD;
+
+      appState.checkedStages[stageKey] = { submitted: true, score, passed };
+
+      const prevBest = appState.bestScores[stageKey] || 0;
+      if (score > prevBest) {
+        appState.bestScores[stageKey] = score;
+      }
+
+      if (passed) {
+        if (!appState.passedStages.includes(stage.id)) {
+          appState.passedStages.push(stage.id);
+        }
+        if (stage.id >= appState.unlockedUpTo && stage.id < STAGES.length) {
+          appState.unlockedUpTo = stage.id + 1;
+        }
+      }
+
+      renderAll();
+      persistState();
+
+      const notice = document.getElementById('stage-notice');
+      if (notice) notice.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    function retryStage() {
+      const stageKey = String(appState.currentStageId);
+      delete appState.checkedStages[stageKey];
+      renderActiveStage();
+      persistState();
+    }
+
+    function goToNextStage() {
+      const nextId = Math.min(STAGES.length, appState.currentStageId + 1);
+      if (nextId <= appState.unlockedUpTo) {
+        selectStage(nextId);
+      }
+    }
+
+    function handleResetClick(btn) {
+      if (!btn) return;
+      if (btn.dataset.armed !== 'true') {
+        btn.dataset.armed = 'true';
+        btn.textContent = `Pulsa otra vez para reiniciar`;
+        setTimeout(() => {
+          if (btn.dataset.armed === 'true') {
+            btn.dataset.armed = 'false';
+            btn.textContent = `Reiniciar progreso`;
+          }
+        }, 4000);
+        return;
+      }
+
+      btn.dataset.armed = 'false';
+      btn.textContent = `Reiniciar progreso`;
+
+      appState = {
+        currentStageId: 1,
+        unlockedUpTo: 1,
+        passedStages: [],
+        bestScores: {},
+        answersByStage: {},
+        checkedStages: {}
+      };
+      renderAll();
+      persistState();
+    }
+
+    function exportProgress() {
+      const lines = [
+        `AUTOEVALUACIÓN SECUENCIADA: EL ORIGEN DE LA TIERRA (3º ESO PDC)`,
+        `Fecha de generación: ${new Date().toLocaleDateString('es-ES')}`,
+        `Apartados superados: ${appState.passedStages.length} / 5`,
+        `Puntuación acumulada: ${computeTotalBestScore()} / 25`,
+        `--------------------------------------------------------------`
+      ];
+
+      for (const s of STAGES) {
+        const best = appState.bestScores[String(s.id)];
+        const passed = appState.passedStages.includes(s.id);
+        const status = passed ? `SUPERADO` : (s.id <= appState.unlockedUpTo ? `EN CURSO` : `BLOQUEADO`);
+        lines.push(`Apartado ${s.id} (${s.era}) - ${s.title}: ${typeof best === 'number' ? best + '/5' : 'Sin completar'} [${status}]`);
+      }
+
+      const content = lines.join('\n');
+      if (window.notebookAppApi && typeof window.notebookAppApi.triggerFileDownload === 'function') {
+        window.notebookAppApi.triggerFileDownload({
+          content,
+          contentType: 'text/plain',
+          encoding: 'UTF-8',
+          filename: 'autoevaluacion_origen_tierra_pdc.txt'
+        });
+      } else {
+        const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'autoevaluacion_origen_tierra_pdc.txt';
+        a.click();
+        URL.revokeObjectURL(url);
+      }
+    }
+
+    async function initApp() {
+      try {
+        if (window.notebookAppApi && typeof window.notebookAppApi.getAppState === 'function') {
+          const saved = await window.notebookAppApi.getAppState();
+          if (saved && typeof saved === 'object') {
+            appState = {
+              currentStageId: Number(saved.currentStageId) || 1,
+              unlockedUpTo: Number(saved.unlockedUpTo) || 1,
+              passedStages: Array.isArray(saved.passedStages) ? saved.passedStages : [],
+              bestScores: saved.bestScores && typeof saved.bestScores === 'object' ? saved.bestScores : {},
+              answersByStage: saved.answersByStage && typeof saved.answersByStage === 'object' ? saved.answersByStage : {},
+              checkedStages: saved.checkedStages && typeof saved.checkedStages === 'object' ? saved.checkedStages : {}
+            };
+          }
+        }
+      } catch (e) {
+        // Fallback cleanly to fresh appState
+      }
+
+      renderAll();
+
+      if (window.notebookAppApi && typeof window.notebookAppApi.notifyAppReady === 'function') {
+        window.notebookAppApi.notifyAppReady();
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', initApp);
+  </script>
+</body>
+</html>
